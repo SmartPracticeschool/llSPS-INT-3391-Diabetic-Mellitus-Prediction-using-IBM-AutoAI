@@ -1,0 +1,268 @@
+[
+    {
+        "id": "1ba3a141.deacff",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "96be17cb.13ca38",
+        "type": "function",
+        "z": "1ba3a141.deacff",
+        "name": "PreToken",
+        "func": "global.set(\"pg\",msg.payload.pg)\nglobal.set(\"pl\",msg.payload.pl)\nglobal.set(\"ps\",msg.payload.ps)\nglobal.set(\"sk\",msg.payload.sk)\nglobal.set(\"ts\",msg.payload.ts)\nglobal.set(\"ms\",msg.payload.ms)\nglobal.set(\"pd\",msg.payload.pd)\nglobal.set(\"ag\",msg.payload.ag)\nvar apikey=\"hwtiQ0ANn7-BgLrnRjMTywj3j--VA2wOVeoMNgsEGB8T\";\nmsg.headers={\"content-type\":\"application/x-www-form-urlencoded\"}\nmsg.payload={\"grant_type\":\"urn:ibm:params:oauth:grant-type:apikey\",\"apikey\":apikey}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 255,
+        "y": 316.0000047683716,
+        "wires": [
+            [
+                "89f31d9c.724a2"
+            ]
+        ]
+    },
+    {
+        "id": "89f31d9c.724a2",
+        "type": "http request",
+        "z": "1ba3a141.deacff",
+        "name": "",
+        "method": "POST",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "https://iam.cloud.ibm.com/identity/token",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 454,
+        "y": 305,
+        "wires": [
+            [
+                "d34b5d07.f0c72"
+            ]
+        ]
+    },
+    {
+        "id": "dee38983.7e3518",
+        "type": "inject",
+        "z": "1ba3a141.deacff",
+        "name": "",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 100.5,
+        "y": 230.00000286102295,
+        "wires": [
+            [
+                "96be17cb.13ca38"
+            ]
+        ]
+    },
+    {
+        "id": "d34b5d07.f0c72",
+        "type": "function",
+        "z": "1ba3a141.deacff",
+        "name": "Pre Prediction",
+        "func": "var pg = global.get('pg')\nvar pl = global.get('pl')\nvar ps = global.get('ps')\nvar sk = global.get('sk')\nvar ts = global.get('ts')\nvar ms = global.get('ms')\nvar pd = global.get('pd')\nvar ag = global.get('ag')\nvar token=msg.payload.access_token\nvar instance_id=\"1b3208a6-0049-4c34-8524-07fd32f423f6\"\nmsg.headers={'Content-Type': 'application/json',\"Authorization\":\"Bearer \"+token,\"ML-Instance-ID\":instance_id}\nmsg.payload={\"input_data\": [{\"fields\": [\"preg\", \" plas\", \"pres\", \"Skin \", \"test\", \"mass\", \"pedi\", \"age\"], \"values\": [[pg,pl,ps,sk,ts,ms,pd,ag]]}]}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 651.0000076293945,
+        "y": 268.00000381469727,
+        "wires": [
+            [
+                "b94aeae.1ebca18"
+            ]
+        ]
+    },
+    {
+        "id": "b94aeae.1ebca18",
+        "type": "http request",
+        "z": "1ba3a141.deacff",
+        "name": "",
+        "method": "POST",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "https://eu-gb.ml.cloud.ibm.com/v4/deployments/e6821a62-778e-402f-9ca0-7e66ee929466/predictions",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 744.5000076293945,
+        "y": 212.00000381469727,
+        "wires": [
+            [
+                "b2acb1d6.da1e8",
+                "1b81cabf.25c4e5"
+            ]
+        ]
+    },
+    {
+        "id": "dfd11a0e.3d3a78",
+        "type": "ui_form",
+        "z": "1ba3a141.deacff",
+        "name": "",
+        "label": "",
+        "group": "a1585cf6.d9c21",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "options": [
+            {
+                "label": "preg",
+                "value": "pg",
+                "type": "number",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "plas",
+                "value": "pl",
+                "type": "number",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "pres",
+                "value": "ps",
+                "type": "number",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Skin",
+                "value": "sk",
+                "type": "number",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "test",
+                "value": "ts",
+                "type": "number",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "mass",
+                "value": "ms",
+                "type": "number",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "pedi",
+                "value": "pd",
+                "type": "number",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "age",
+                "value": "ag",
+                "type": "number",
+                "required": true,
+                "rows": null
+            }
+        ],
+        "formValue": {
+            "pg": "",
+            "pl": "",
+            "ps": "",
+            "sk": "",
+            "ts": "",
+            "ms": "",
+            "pd": "",
+            "ag": ""
+        },
+        "payload": "",
+        "submit": "submit",
+        "cancel": "cancel",
+        "topic": "",
+        "x": 46,
+        "y": 359,
+        "wires": [
+            [
+                "96be17cb.13ca38"
+            ]
+        ]
+    },
+    {
+        "id": "58f3bd1a.13d394",
+        "type": "ui_text",
+        "z": "1ba3a141.deacff",
+        "group": "a1585cf6.d9c21",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "% chance of avalanche",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "x": 710,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "b2acb1d6.da1e8",
+        "type": "function",
+        "z": "1ba3a141.deacff",
+        "name": "",
+        "func": "msg.payload=100*(msg.payload.predictions[0].values[0][1][0])\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 610,
+        "y": 80,
+        "wires": [
+            [
+                "58f3bd1a.13d394"
+            ]
+        ]
+    },
+    {
+        "id": "1b81cabf.25c4e5",
+        "type": "debug",
+        "z": "1ba3a141.deacff",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 910,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "a1585cf6.d9c21",
+        "type": "ui_group",
+        "z": "",
+        "name": "Default",
+        "tab": "d2b336d0.be7928",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false
+    },
+    {
+        "id": "d2b336d0.be7928",
+        "type": "ui_tab",
+        "z": "",
+        "name": "Home",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    }
+]

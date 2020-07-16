@@ -1,0 +1,38 @@
+[
+    {
+        "id": "58f3bd1a.13d394",
+        "type": "ui_text",
+        "z": "1ba3a141.deacff",
+        "group": "a1585cf6.d9c21",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "% chance of  Diabetes",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "x": 700,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "a1585cf6.d9c21",
+        "type": "ui_group",
+        "z": "",
+        "name": "Default",
+        "tab": "d2b336d0.be7928",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false
+    },
+    {
+        "id": "d2b336d0.be7928",
+        "type": "ui_tab",
+        "z": "",
+        "name": "Home",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    }
+]
